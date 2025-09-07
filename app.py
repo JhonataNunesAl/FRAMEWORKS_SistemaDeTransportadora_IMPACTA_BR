@@ -1,6 +1,5 @@
 from config import app, db
 from flask_migrate import Migrate, upgrade
-from flask import jsonify
 
 from view.apartamento_view import apartamento_blueprint
 

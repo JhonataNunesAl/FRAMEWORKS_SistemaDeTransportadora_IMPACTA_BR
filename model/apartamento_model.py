@@ -10,8 +10,7 @@ class Apartamento(db.Model):
     Venda = db.Column(db.Boolean, default=False)
 
 
-    morador_id = db.Column(db.Integer, db.ForeignKey("Moradores.id"))
-    morador = db.relationship("morador", back_populates="Apartamentos")
+
     
     def __repr__(self):
         return f"<Apartamento {self.Numero_AP} - Ocupado {self.Ocupado} - Alugado {self.Alugado} - Venda {self.Venda}"
