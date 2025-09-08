@@ -13,21 +13,25 @@ class NenhumDado (Exception):
 
 
 def Adicionar_Apartamento(dados):
-    campo_obrigatorio = ['Numero_AP']
-    if campo_obrigatorio not in dados or dados[campo_obrigatorio] == '':
-        return {"messagem": "Numero do apartamento obrigatorio"}
-    
+    if 'Numero_AP' not in dados or dados['Numero_AP'] == '':
+        raise CamposVazio()
+
     novo_apartamento = Apartamento(
-        Numero_AP = dados['Numero_AP'],
-        Ocupado = dados['Ocupado'],
-        Alugado = dados['Alugado'],
-        Venda = dados['Venda']
+        Numero_AP=dados['Numero_AP'],
+        Ocupado=dados.get('Ocupado', False),
+        Alugado=dados.get('Alugado', False),
+        Venda=dados.get('Venda', False)
     )
 
     db.session.add(novo_apartamento)
     db.session.commit()
 
-    return {"messagem": "Novo apartamento adicionado ao banco de dados"}, 201
+    return {
+        "Numero_AP": novo_apartamento.Numero_AP,
+        "Ocupado": novo_apartamento.Ocupado,
+        "Alugado": novo_apartamento.Alugado,
+        "Venda": novo_apartamento.Venda
+    }
 
 
 def Atualizar_Apartamento(Numero_AP, dados):
