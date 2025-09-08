@@ -86,7 +86,7 @@ def Buscar_Apartamento(tipo=None, ocupado=None):
         apartamento = apartamento.filter_by(Venda=True)
     
     if ocupado is not None:
-        apartamento = apartamento.filter_by(ocupado = String_Para_Booleano(ocupado))
+        apartamento = apartamento.filter_by(Ocupado = String_Para_Booleano(ocupado))
 
     return apartamento.all()
 

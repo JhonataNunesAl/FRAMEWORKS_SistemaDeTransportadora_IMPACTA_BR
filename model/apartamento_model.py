@@ -14,3 +14,12 @@ class Apartamento(db.Model):
     
     def __repr__(self):
         return f"<Apartamento {self.Numero_AP} - Ocupado {self.Ocupado} - Alugado {self.Alugado} - Venda {self.Venda}"
+
+
+    def to_dict(self):
+        return {
+            "Numero_AP": self.Numero_AP,
+            "Ocupado": self.Ocupado,
+            "Alugado": self.Alugado,
+            "Venda": self.Venda
+        }
