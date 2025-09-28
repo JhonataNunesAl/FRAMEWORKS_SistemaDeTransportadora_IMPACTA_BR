@@ -5,7 +5,7 @@ from view.apartamento_view import apartamento_blueprint
 
 migrate = Migrate(app, db)
 
-app.register_blueprint(apartamento_blueprint, url_prefix='/api/apartamentos')
+app.register_blueprint(apartamento_blueprint, url_prefix='/api')
 
 with app.app_context():
     upgrade()

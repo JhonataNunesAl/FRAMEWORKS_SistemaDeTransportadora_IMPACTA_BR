@@ -1,15 +1,17 @@
-from model.apartamento_model import Apartamento
 from config import db
+from model.apartamento_model import Apartamento
+
 
 class ApartamentoNaoEncontrado(Exception):
     pass
 
+
 class CamposVazio(Exception):
     pass
 
-class NenhumDado (Exception):
-    pass
 
+class NenhumDado(Exception):
+    pass
 
 
 def Adicionar_Apartamento(dados):
@@ -26,12 +28,7 @@ def Adicionar_Apartamento(dados):
     db.session.add(novo_apartamento)
     db.session.commit()
 
-    return {
-        "Numero_AP": novo_apartamento.Numero_AP,
-        "Ocupado": novo_apartamento.Ocupado,
-        "Alugado": novo_apartamento.Alugado,
-        "Venda": novo_apartamento.Venda
-    }
+    return novo_apartamento.to_dict()
 
 
 def Atualizar_Apartamento(Numero_AP, dados):
@@ -42,40 +39,24 @@ def Atualizar_Apartamento(Numero_AP, dados):
     if not dados:
         raise NenhumDado()
 
-    campos = [
-        'Ocupado', 'Alugado', 'Venda'
-    ]
+    campos = ['Ocupado', 'Alugado', 'Venda']
     campos_vazio = []
-    for campo in campos: 
-        if campo in dados and (dados[campo]is None or dados[campo]== ""):
+    for campo in campos:
+        if campo in dados and (dados[campo] is None or dados[campo] == ""):
             campos_vazio.append(campo)
-    
+
     if campos_vazio:
-        raise CamposVazio(campos_vazio)        
-    
-    apartamento.Ocupado = dados['Ocupado']
-    apartamento.Alugado = dados['Alugado']
-    apartamento.Venda = dados['Venda']
+        raise CamposVazio(campos_vazio)
+
+    if 'Ocupado' in dados:
+        apartamento.Ocupado = dados['Ocupado']
+    if 'Alugado' in dados:
+        apartamento.Alugado = dados['Alugado']
+    if 'Venda' in dados:
+        apartamento.Venda = dados['Venda']
 
     db.session.commit()
-    return{"messagem": "Informacoes atualizadas"}, 200
-
-
-def String_Para_Booleano(valor, default = False):
-    if valor is None:
-        return default
-    
-    valor = str(valor).strip().lower()
-    
-    verdadeiros = {"true", "1", "sim", "yes", "y"}
-    falsos = {"false", "0", "não", "nao", "no", "n"}
-    
-    if valor in verdadeiros:
-        return True
-    elif valor in falsos:
-        return False
-    else:
-        return default
+    return {"messagem": "Informacoes atualizadas"}
 
 
 def Buscar_Apartamento(tipo=None, ocupado=None):
@@ -84,9 +65,8 @@ def Buscar_Apartamento(tipo=None, ocupado=None):
         apartamento = apartamento.filter_by(Alugado=False)
     elif tipo == "Venda":
         apartamento = apartamento.filter_by(Venda=True)
-    
+
     if ocupado is not None:
-        apartamento = apartamento.filter_by(Ocupado = String_Para_Booleano(ocupado))
+        apartamento = apartamento.filter_by(Ocupado=(str(ocupado).lower() in ["true", "1", "sim", "yes", "y"]))
 
     return apartamento.all()
-
