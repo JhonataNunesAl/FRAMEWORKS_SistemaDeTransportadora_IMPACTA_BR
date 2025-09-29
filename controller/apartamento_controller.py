@@ -70,3 +70,18 @@ def Buscar_Apartamento(tipo=None, ocupado=None):
         apartamento = apartamento.filter_by(Ocupado=(str(ocupado).lower() in ["true", "1", "sim", "yes", "y"]))
 
     return apartamento.all()
+
+
+# ADICIONE ESTA FUNÇÃO PARA DELETAR APARTAMENTO
+def Deletar_Apartamento(Numero_AP):
+    apartamento = Apartamento.query.get(Numero_AP)
+    if not apartamento:
+        raise ApartamentoNaoEncontrado()
+
+    # Verificar se o apartamento tem moradores associados
+    if apartamento.moradores:
+        return {"mensagem": "Não é possível deletar apartamento com moradores associados"}, 400
+
+    db.session.delete(apartamento)
+    db.session.commit()
+    return {"mensagem": "Apartamento deletado com sucesso"}
