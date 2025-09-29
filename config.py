@@ -25,5 +25,15 @@ if database_url.startswith("postgres://"):
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# **ADICIONAR: Configurações de engine para SSL e gerenciamento de conexão**
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_recycle': 300,  # Reciclar conexões a cada 5 minutos
+    'pool_pre_ping': True,  # Verificar se a conexão está ativa antes de usar
+    'connect_args': {
+        'sslmode': 'require',
+        'sslrootcert': '/etc/ssl/certs/ca-certificates.crt'  # Caminho padrão para certificados SSL no Linux
+    }
+}
+
 # Criando o objeto de banco de dados
 db = SQLAlchemy(app)
