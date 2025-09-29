@@ -15,7 +15,7 @@ app.config['DEBUG'] = True
 # URL do banco de dados (Render)
 database_url = os.getenv(
     "DATABASE_URL",
-    "postgresql://databaseapartamento_dyo1_user:nNN1iEvn0cNmqcDG4aHFxKhG8yZlOSw0@dpg-d3d0ss0gjchc739jp9o0-a/databaseapartamento_dyo1?sslmode=require"
+    "postgresql://databaseapartamento_dyo1_user:nNN1iEvn0cNmqcDG4aHFxKhG8yZlOSw0@dpg-d3d0ss0gjchc739jp9o0-a.oregon-postgres.render.com/databaseapartamento_dyo1?sslmode=require"
 )
 
 # Garantir que a URL esteja no formato correto para SQLAlchemy
