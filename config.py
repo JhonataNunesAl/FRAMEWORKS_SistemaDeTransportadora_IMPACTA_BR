@@ -13,7 +13,7 @@ app.config['DEBUG'] = True
 
 database_url = os.getenv(
     "DATABASE_URL",
-    "postgresql://databaseapartamento_dyo1_user:nNN1iEvn0cNmqcDG4aHFxKhG8yZlOSw0@dpg-d3d0ss0gjchc739jp9o0-a.oregon-postgres.render.com/databaseapartamento_dyo1"
+    "postgresql://databaseapartamento_dyo1_user:nNN1iEvn0cNmqcDG4aHFxKhG8yZlOSw0@dpg-d3d0ss0gjchc739jp9o0-a/databaseapartamento_dyo1"
 )
 
 
