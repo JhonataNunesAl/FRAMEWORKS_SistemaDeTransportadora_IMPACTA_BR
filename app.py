@@ -9,8 +9,8 @@ migrate = Migrate(app, db)
 app.register_blueprint(apartamento_blueprint, url_prefix='/api')
 app.register_blueprint(morador_blueprint, url_prefix='/api')
 
-with app.app_context():
-    upgrade()
+# with app.app_context():
+#     upgrade()
 
 if __name__ == '__main__':
     app.run(
