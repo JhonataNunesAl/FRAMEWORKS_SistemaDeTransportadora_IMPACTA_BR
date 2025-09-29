@@ -16,6 +16,7 @@ database_url = os.getenv(
     "postgresql://databaseapartamento_dyo1_user:nNN1iEvn0cNmqcDG4aHFxKhG8yZlOSw0@dpg-d3d0ss0gjchc739jp9o0-a.oregon-postgres.render.com/databaseapartamento_dyo1"
 )
 
+
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
@@ -23,7 +24,9 @@ if database_url.startswith("postgres://"):
 if "sslmode" not in database_url:
     database_url += "?sslmode=require"
 
+
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+
+db = SQLAlchemy(app, engine_options={"connect_args": {"sslmode": "require"}})
