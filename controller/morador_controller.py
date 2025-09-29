@@ -26,10 +26,10 @@ def Adicionar_Morador(dados):
         idade=dados["idade"]
     )
 
- 
     if "apartamentos" in dados:
         for numero in dados["apartamentos"]:
-            apartamento = Apartamento.query.get(numero)
+            numero_str = str(numero)
+            apartamento = Apartamento.query.get(numero_str)
             if apartamento:
                 novo_morador.apartamentos.append(apartamento)
 
@@ -57,11 +57,11 @@ def Atualizar_Morador(id, dados):
     if "idade" in dados and isinstance(dados["idade"], int):
         morador.idade = dados["idade"]
 
-
     if "apartamentos" in dados:
         morador.apartamentos.clear()
         for numero in dados["apartamentos"]:
-            apartamento = Apartamento.query.get(numero)
+            numero_str = str(numero)
+            apartamento = Apartamento.query.get(numero_str)
             if apartamento:
                 morador.apartamentos.append(apartamento)
 

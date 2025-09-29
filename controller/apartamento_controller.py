@@ -22,13 +22,13 @@ def Adicionar_Apartamento(dados):
     if 'Numero_AP' not in dados or dados['Numero_AP'] == '':
         raise CamposVazio()
 
-
-    apartamento_existente = Apartamento.query.get(str(dados['Numero_AP']))
+    numero_ap = str(dados['Numero_AP'])
+    apartamento_existente = Apartamento.query.get(numero_ap)
     if apartamento_existente:
-        raise ApartamentoJaExiste(f"Apartamento {dados['Numero_AP']} já existe")
+        raise ApartamentoJaExiste(f"Apartamento {numero_ap} já existe")
 
     novo_apartamento = Apartamento(
-        Numero_AP=str(dados['Numero_AP']),
+        Numero_AP=numero_ap,
         Ocupado=dados.get('Ocupado', False),
         Alugado=dados.get('Alugado', False),
         Venda=dados.get('Venda', False)
@@ -41,7 +41,8 @@ def Adicionar_Apartamento(dados):
 
 
 def Atualizar_Apartamento(Numero_AP, dados):
-    apartamento = Apartamento.query.get(str(Numero_AP))
+    numero_ap = str(Numero_AP)
+    apartamento = Apartamento.query.get(numero_ap)
     if not apartamento:
         raise ApartamentoNaoEncontrado()
 
@@ -82,7 +83,8 @@ def Buscar_Apartamento(tipo=None, ocupado=None):
 
 
 def Deletar_Apartamento(Numero_AP):
-    apartamento = Apartamento.query.get(str(Numero_AP))
+    numero_ap = str(Numero_AP)
+    apartamento = Apartamento.query.get(numero_ap)
     if not apartamento:
         raise ApartamentoNaoEncontrado()
 
