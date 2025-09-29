@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from controller.apartamento_controller import (
     Buscar_Apartamento, Adicionar_Apartamento, Atualizar_Apartamento, Deletar_Apartamento,
-    CamposVazio, ApartamentoNaoEncontrado, NenhumDado
+    CamposVazio, ApartamentoNaoEncontrado, NenhumDado, ApartamentoJaExiste
 )
 
 apartamento_blueprint = Blueprint("apartamento", __name__)
@@ -23,6 +23,8 @@ def criar_apartamento():
         return jsonify(apartamento), 201
     except CamposVazio:
         return jsonify({'mensagem': 'Numero do apartamento obrigatório'}), 400
+    except ApartamentoJaExiste as e:
+        return jsonify({'mensagem': str(e)}), 409  
 
 
 @apartamento_blueprint.route('/apartamento/<string:Numero_AP>', methods=['PUT'])
@@ -39,13 +41,11 @@ def atualizar_apartamento(Numero_AP):
         return jsonify({'Mensagem': f'Os seguintes campos não podem estar vazios: {", ".join(e.args[0])}'}), 400
 
 
-# ADICIONE ESTA ROTA PARA DELETAR APARTAMENTO
 @apartamento_blueprint.route('/apartamento/<string:Numero_AP>', methods=['DELETE'])
 def deletar_apartamento(Numero_AP):
     try:
         resultado = Deletar_Apartamento(Numero_AP)
         
-        # Se a função retornar uma tupla (mensagem, status), use o status
         if isinstance(resultado, tuple):
             mensagem, status_code = resultado
             return jsonify(mensagem), status_code

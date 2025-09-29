@@ -14,12 +14,21 @@ class NenhumDado(Exception):
     pass
 
 
+class ApartamentoJaExiste(Exception):
+    pass
+
+
 def Adicionar_Apartamento(dados):
     if 'Numero_AP' not in dados or dados['Numero_AP'] == '':
         raise CamposVazio()
 
+
+    apartamento_existente = Apartamento.query.get(str(dados['Numero_AP']))
+    if apartamento_existente:
+        raise ApartamentoJaExiste(f"Apartamento {dados['Numero_AP']} já existe")
+
     novo_apartamento = Apartamento(
-        Numero_AP=dados['Numero_AP'],
+        Numero_AP=str(dados['Numero_AP']),
         Ocupado=dados.get('Ocupado', False),
         Alugado=dados.get('Alugado', False),
         Venda=dados.get('Venda', False)
@@ -32,7 +41,7 @@ def Adicionar_Apartamento(dados):
 
 
 def Atualizar_Apartamento(Numero_AP, dados):
-    apartamento = Apartamento.query.get(Numero_AP)
+    apartamento = Apartamento.query.get(str(Numero_AP))
     if not apartamento:
         raise ApartamentoNaoEncontrado()
 
@@ -72,13 +81,11 @@ def Buscar_Apartamento(tipo=None, ocupado=None):
     return apartamento.all()
 
 
-# ADICIONE ESTA FUNÇÃO PARA DELETAR APARTAMENTO
 def Deletar_Apartamento(Numero_AP):
-    apartamento = Apartamento.query.get(Numero_AP)
+    apartamento = Apartamento.query.get(str(Numero_AP))
     if not apartamento:
         raise ApartamentoNaoEncontrado()
 
-    # Verificar se o apartamento tem moradores associados
     if apartamento.moradores:
         return {"mensagem": "Não é possível deletar apartamento com moradores associados"}, 400
 
