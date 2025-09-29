@@ -14,7 +14,7 @@ app.config['DEBUG'] = True
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
     "DATABASE_URL",
-    "postgresql://databaseapartamento_user:H6PRvbtRhA9n5L94yBXyIOfV5gGgYmI7@dpg-d2tckgeuk2gs73cof7f0-a.oregon-postgres.render.com/databaseapartamento"
+    "postgresql://databaseapartamento_dyo1_user:nNN1iEvn0cNmqcDG4aHFxKhG8yZlOSw0@dpg-d3d0ss0gjchc739jp9o0-a.oregon-postgres.render.com/databaseapartamento_dyo1"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
