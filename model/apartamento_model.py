@@ -17,6 +17,8 @@ class Apartamento(db.Model):
         back_populates="apartamentos"
     )
 
+    contas = db.relationship("Conta", back_populates="apartamento", cascade="all, delete-orphan")
+
     def __repr__(self):
         return f"<Apartamento {self.Numero_AP} - Ocupado {self.Ocupado} - Alugado {self.Alugado} - Venda {self.Venda}>"
 

@@ -22,6 +22,8 @@ class Morador(db.Model):
         back_populates="moradores"
     )
 
+    contas = db.relationship("Conta", back_populates="morador", cascade="all, delete-orphan")
+
     def __repr__(self):
         return f"<Morador {self.nome} - Idade {self.idade}>"
 
